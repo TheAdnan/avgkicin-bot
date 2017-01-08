@@ -4,30 +4,41 @@ error_reporting(E_ALL);
 // username avgkicin_bot | Average Everyday Kicin
 $botToken = "insert your token here";
 $telegram = 'https://api.telegram.org/bot'.$botToken;
-$update = file_get_contents($telegram."/getupdates");
 
-$update = json_decode($update, TRUE);
+$last_update = 0;
 
-$chat_id = $update['result'][0]['message']['chat']['id'];
-$msg = $update['result'][count($update['result'][0]['message'])]['message']['text'];
+while (true) {
+	$update = file_get_contents($telegram."/getupdates?timeout=30&offset=".$last_update);
+	$update = json_decode($update, TRUE);
 
-
-echo $msg;
-
-
-switch($msg){
-	case "/selam":
-		answer($telegram, $chat_id, "alejkumu selam");
-		break;
-	case "slm":
-		answer($telegram, $chat_id, "wslm");
-		break;
-		
-	case "selam":
-		answer($telegram, $chat_id, "alejkumu selam selamdžija");
-		break;
-	default:
-		answer($telegram, $chat_id, "Nisam te skonto braca");
+foreach($update["result"] as $key => $value){
+	 if ($last_update<$value['update_id']){
+		 
+		$last_update = $value['update_id'];
+        $chat_id= $value["message"]["chat"]["id"];
+		$msg = $value["message"]["text"];
+		// Message processing
+		switch($msg){
+			case "/selam":
+				answer($telegram, $chat_id, "alejkumu selam");
+				break;
+			case "slm":
+				answer($telegram, $chat_id, "wslm");
+				break;
+			case "selam":
+				answer($telegram, $chat_id, "alejkumu selam selamdžija");
+				break;
+			case "šta ima?":
+				answer($telegram, $chat_id, "ništa značajno");
+				break;
+			case "kakav si mi?":
+				answer($telegram, $chat_id, "drama");
+				break;
+			default:
+				answer($telegram, $chat_id, "Nisam te skonto bruda");
+		}
+	 }
+	}
 }
 
 function answer($telegram, $cID, $msg){
@@ -35,4 +46,3 @@ function answer($telegram, $cID, $msg){
 	file_get_contents($url);
 }
 ?>
-
