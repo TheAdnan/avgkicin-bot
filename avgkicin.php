@@ -38,7 +38,7 @@ foreach($update["result"] as $key => $value){
 			case "kako si?":
 				answer($telegram, $chat_id, "drama");
 				break;
-			case "\film":
+			case "/film":
 				getMovie($telegram, $chat_id);
 				break;
 			default:
