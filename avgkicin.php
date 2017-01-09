@@ -1,7 +1,7 @@
 <h2>Average everyday kicin</h2>
 <?php
 error_reporting(E_ALL);
-// username avgkicin_bot | Average Everyday Kicin
+// bot handle: avgkicin_bot | username: Average Everyday Kicin
 $botToken = "insert your token here";
 $telegram = 'https://api.telegram.org/bot'.$botToken;
 
