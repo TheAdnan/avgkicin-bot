@@ -38,6 +38,9 @@ foreach($update["result"] as $key => $value){
 			case "kako si?":
 				answer($telegram, $chat_id, "drama");
 				break;
+			case "\film":
+				getMovie($telegram, $chat_id);
+				break;
 			default:
 				answer($telegram, $chat_id, "Nisam te skonto bruda");
 		}
@@ -48,5 +51,11 @@ foreach($update["result"] as $key => $value){
 function answer($telegram, $cID, $msg){
 	$url = $telegram."/sendMessage?chat_id=".$cID."&text=".urlencode($msg);
 	file_get_contents($url);
+}
+
+function getMovie($telegram, $chat_id){
+	$movie = file("film.csv");
+	$msg = $movie[mt_rand(0, count($movie) - 1)];
+	answer($telegram, $chat_id, $msg);
 }
 ?>
