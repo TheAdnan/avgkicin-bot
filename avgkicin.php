@@ -17,6 +17,7 @@ foreach($update["result"] as $key => $value){
 		$last_update = $value['update_id'];
         $chat_id= $value["message"]["chat"]["id"];
 		$msg = $value["message"]["text"];
+		$msg = strtolower($msg);
 		// Message processing
 		switch($msg){
 			case "/selam":
@@ -32,6 +33,9 @@ foreach($update["result"] as $key => $value){
 				answer($telegram, $chat_id, "ništa značajno");
 				break;
 			case "kakav si mi?":
+				answer($telegram, $chat_id, "drama");
+				break;
+			case "kako si?":
 				answer($telegram, $chat_id, "drama");
 				break;
 			default:
