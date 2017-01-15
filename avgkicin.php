@@ -1,22 +1,23 @@
-<h2>Average everyday kicin</h2>
 <?php
-error_reporting(E_ALL);
-// bot handle: avgkicin_bot | username: Average Everyday Kicin
-$botToken = "insert your token here";
+// username avgkicin_bot | Average Everyday Kicin
+$botToken = "your bot token";
 $telegram = 'https://api.telegram.org/bot'.$botToken;
-
 $last_update = 0;
 
 while (true) {
 	$update = file_get_contents($telegram."/getupdates?timeout=30&offset=".$last_update);
 	$update = json_decode($update, TRUE);
-
 foreach($update["result"] as $key => $value){
 	 if ($last_update<$value['update_id']){
 		 
 		$last_update = $value['update_id'];
         $chat_id= $value["message"]["chat"]["id"];
 		$msg = $value["message"]["text"];
+		$sticker = $value["message"]["sticker"]["file_id"];
+		if(isset($sticker)){
+			answerSticker($telegram, $chat_id);
+			$msg = "ex";
+		}
 		$msg = strtolower($msg);
 		// Message processing
 		switch($msg){
@@ -38,14 +39,30 @@ foreach($update["result"] as $key => $value){
 			case "kako si?":
 				answer($telegram, $chat_id, "drama");
 				break;
+			case "ex":
+				break;
 			case "/film":
 				getMovie($telegram, $chat_id);
 				break;
+			case "/tvshow":
+				getTVShow($telegram, $chat_id);
+				break;
+			case "/start":
+				intro($telegram, $chat_id);
+				break;
 			default:
-				answer($telegram, $chat_id, "Nisam te skonto bruda");
+				RandomAnswer($telegram, $chat_id);
 		}
+		
 	 }
 	}
+}
+
+function answerSticker($telegram, $cID){
+	$msg = file("files/stickers.txt");
+	$msg = $msg[mt_rand(0, count($msg) - 1)];
+	$url = $telegram."/sendSticker?chat_id=".$cID."&sticker=".$msg;
+	file_get_contents($url);
 }
 
 function answer($telegram, $cID, $msg){
@@ -54,8 +71,28 @@ function answer($telegram, $cID, $msg){
 }
 
 function getMovie($telegram, $chat_id){
-	$movie = file("film.csv");
+	$movie = file("files/film.csv");
 	$msg = $movie[mt_rand(0, count($movie) - 1)];
 	answer($telegram, $chat_id, $msg);
+}
+
+function getTVShow($telegram, $chat_id){
+	$tv = file("files/cucirca.txt");
+	$msg = $tv[mt_rand(0, count($tv) - 1)];
+	answer($telegram, $chat_id, $msg);
+}
+
+function RandomAnswer($telegram, $chat_id){
+	$tv = file("files/odg.txt");
+	$msg = $tv[mt_rand(0, count($tv) - 1)];
+	answer($telegram, $chat_id, $msg);
+}
+
+function intro($telegram, $chat_id){
+	$msg = "Haj bujrum, ne moraš se izuvat\n";
+	answer($telegram, $chat_id, $msg);
+}
+function start_bot(){
+	echo "started!";
 }
 ?>
