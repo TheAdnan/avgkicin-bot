@@ -39,6 +39,9 @@ foreach($update["result"] as $key => $value){
 			case "kako si?":
 				answer($telegram, $chat_id, "drama");
 				break;
+			case "bracika":
+				answer($telegram, $chat_id, "berbruda");
+				break;
 			case "ex":
 				break;
 			case "/film":
