@@ -42,6 +42,29 @@ foreach($update["result"] as $key => $value){
 			case "bracika":
 				answer($telegram, $chat_id, "berbruda");
 				break;
+			case "hi":
+			case "hello":
+				answer($telegram, $chat_id, "Hi there");
+				break;
+			case "how are you?":
+				answer($telegram, $chat_id, "I'd rather know how you are.");
+				break;
+			case "who are you?":
+				answer($telegram, $chat_id, "I can't answer that. What about you?");
+				break;
+			case "why won't you answer my questions?":
+				answer($telegram, $chat_id, "Did you expect something different?");
+				break;
+			case "this is exciting":
+				answer($telegram, $chat_id, "I think it's pretty fun too.");
+				break;
+			case "bonjour":
+			case "salut":
+				answer($telegram, $chat_id, "Salut!");
+				break;
+			case "pouvez-vous parler français?":
+				answer($telegram, $chat_id, "Pourquoi pas?");
+				break;
 			case "ex":
 				break;
 			case "/film":
